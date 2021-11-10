@@ -116,6 +116,8 @@ Solidity: core contracts repo has ~ 1511 lines of code
 - OpenZeppelin contracts
 - Slightly [modified UniswapV3 Oracle library](https://github.com/overlay-market/overlay-v1-core/tree/main/contracts/libraries/UniswapV3OracleLibrary)
 - Some particular math library, maybe [FixedPoint library](https://github.com/overlay-market/overlay-v1-core/blob/main/contracts/libraries/FixedPoint.sol) (forked from sushiswap/mirin; which was forked from Uniswap/uniswap-lib), or Balancer's library
+- [Position.sol](https://github.com/overlay-market/overlay-v1-core/blob/main/contracts/libraries/Position.sol)
+- [LogExpMath.sol](https://github.com/overlay-market/overlay-v1-core/blob/main/contracts/libraries/LogExpMath.sol)
 
 # System Diagrams
  - Detailed System Diagrams found [here](https://miro.com/app/board/o9J_l5DRg6A=/?invite_link_id=632214936825)
