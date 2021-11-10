@@ -104,7 +104,22 @@ Overlay is a protocol for trading nearly any data stream, long or short, with le
 
 # Smart Contracts
 Solidity: core contracts repo has ~ 1511 lines of code
-- OVL Collateral Manager contract
+- OverlayV1Comptroller.sol **(371 sloc) **
+- OverlayV1Governance.sol **(96 sloc)**
+- OverlayV1OVLCollateral.sol **(337 sloc)**
+- OverlayV1Market.sol **(106 sloc)**
+- OverlayV1Mothership.sol **(124 sloc)**
+- OverlayV1OI.sol **(107 sloc)**
+- OverlayV1PricePoint.sol **(88 sloc)**
+
+# Library Contracts
+- OpenZeppelin contracts
+- Slightly [modified UniswapV3 Oracle library](https://github.com/overlay-market/overlay-v1-core/tree/main/contracts/libraries/UniswapV3OracleLibrary)
+- Some particular math library, maybe [FixedPoint library](https://github.com/overlay-market/overlay-v1-core/blob/main/contracts/libraries/FixedPoint.sol) (forked from sushiswap/mirin; which was forked from Uniswap/uniswap-lib), or Balancer's library
+
+# System Diagrams
+ - Detailed System Diagrams found [here](https://miro.com/app/board/o9J_l5DRg6A=/?invite_link_id=632214936825)
+ - - OVL Collateral Manager contract 
     - Overview
         - Users interact with the collateral manager contract to trade on different Overlay markets
         - Collateral manager contracts have special auth permissions to interact with the market contracts — they are the only ones that can interact w market contracts
@@ -142,10 +157,3 @@ Solidity: core contracts repo has ~ 1511 lines of code
             - **External**
                 - staticUpdate()
                     - Looks back in time to see if there is a position that needs to be settled and settles it.
-# Library Contracts
-- OpenZeppelin contracts
-- Slightly modified UniswapV3 Oracle library
-- Some particular math library, maybe FixedPoint library (forked from sushiswap/mirin; which was forked from Uniswap/uniswap-lib), or Balancer's library
-
-# System Diagrams
- - Detailed System Diagrams found [here](https://miro.com/app/board/o9J_l5DRg6A=/?invite_link_id=632214936825)
