@@ -104,7 +104,7 @@ Overlay is a protocol for trading nearly any data stream, long or short, with le
 
 # Smart Contracts
 Solidity: core contracts repo has ~ 1511 lines of code
-- OverlayV1Comptroller.sol **(371 sloc) **
+- OverlayV1Comptroller.sol **(371 sloc)**
 - OverlayV1Governance.sol **(96 sloc)**
 - OverlayV1OVLCollateral.sol **(337 sloc)**
 - OverlayV1Market.sol **(106 sloc)**
