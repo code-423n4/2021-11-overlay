@@ -92,7 +92,7 @@ This repo will be made public before the start of the contest. (C4 delete this l
 This contest is open for two weeks to give wardens time to understand the protocol properly. Submissions can only be made in the second week of the contest. Representatives from gro will be available in the Code Arena Discord to answer any questions during the contest period. The focus for the contest is to try and find any logic errors or ways to drain funds from the protocol in a way that is advantageous for an attacker at the expense of users with funds invested in the protocol. Wardens should assume that governance variables are set sensibly (unless they can find a way to change the value of a governance variable, and not counting social engineering approaches for this).
 
 # Novel Maths
-Updated Whitepaper with underlying math can found here[https://drive.google.com/file/d/1Jhpah-KPvX1C9bxPKxiorxsXmgT8LuMd/view?usp=sharing](url)
+Updated Whitepaper with underlying math can found [here](https://drive.google.com/file/d/1Jhpah-KPvX1C9bxPKxiorxsXmgT8LuMd/view?usp=sharing)
 
 # Protocol Overview
 Overlay is a protocol for trading nearly any data stream, long or short, with leverage, using price oracles and a native token (OVL). All PnL is denominated in OVL and the OVL token also serves as the native governance token of the protocol, it gives successful traders even more skin in the game. OVL enables holders to propose new markets on Overlay and determine per-market risk parameters such as trading fees and maximum leverage levels.
