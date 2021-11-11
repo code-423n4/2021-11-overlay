@@ -123,7 +123,7 @@ To deter front-running the oracle, the protocol adds:
 
 - Market impact fee charged on the size of the position entered into
 
-Initial data streams to be offered as markets on Overlay will be Uniswap V3 price feeds (TWAPs).
+Initial data streams to be offered as markets on Overlay will be Uniswap V3 and Balancer V2 price feeds (TWAPs).
 
 
 # Contracts
@@ -171,13 +171,30 @@ Collateral managers are given mint and burn permissions on the OVL token and the
 
 Markets module consists of markets on different data streams. Traders do not interact directly with the market contract. Only collateral managers are permitted to interact with market contracts, in order to enter or exit open interest on a market.
 
-Each market tracks:
+Each market inherits from `OverlayV1Market.sol` and tracks:
 
-- Total open interest outstanding on long and short sides
-- Accumulator snapshots for how much of the open interest cap has been entered into in the past
-- Accumulator snapshots for how much OVL has been printed in the past
-- Historical prices fetched from the oracle
-- Collateral managers approved by governance to add/remove open interest
+- Total open interest outstanding on long and short sides in `OverlayV1OI.sol`:
+```
+uint256 internal __oiLong__; // total long open interest
+uint256 internal __oiShort__; // total short open interest
+```
+- Accumulator snapshots for how much of the open interest cap has been entered into in the past in `OverlayV1Comptroller.sol`:
+```
+Roller[60] public impactRollers;
+```
+- Accumulator snapshots for how much OVL has been printed in the past in `OverlayV1Comptroller.sol`:
+```
+Roller[60] public brrrrdRollers;
+```
+- Historical prices fetched from the oracle in `OverlayV1PricePoint.sol`:
+```
+// mapping from price point index to realized historical prices
+PricePoint[] internal _pricePoints;
+```
+- Collateral managers approved by governance to add/remove open interest in `OverlayV1Governance.sol`:
+```
+mapping (address => bool) public isCollateral;
+```
 
 
 ### OVL Module
