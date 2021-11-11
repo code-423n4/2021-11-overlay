@@ -120,7 +120,6 @@ Overlay V1 Core has three different economic mechanisms to manage the risk assoc
 To deter front-running the protocol adds:
 
 - Bid/ask spread to the price fetched from the oracle feed
-
 - Market impact fee charged on the size of the position entered into
 
 
@@ -133,6 +132,19 @@ Contracts under audit are listed below.
 
 
 # Mathematical Models
+
+Updated whitepaper with underlying math can found [here](https://drive.google.com/file/d/1I8uGHwMBg8bPJ4eYrG-5U_WNIDN73TyN/view?usp=sharing).
+
+It is most concerned with addressing the question of how to set risk parameters for each market. In particular, setting governance variables in the general `OverlayMarket.sol` contract for:
+
+- `k`: funding constant
+- `pbnj`: bid/ask static spread
+- `lmbda`: market impact
+- `staticCap`: open interest cap
+- `brrrrdExpected`: expected worst-case inflation rate
+
+Original whitepaper outlining the vision for the protocol is [here](https://drive.google.com/file/d/1Jhpah-KPvX1C9bxPKxiorxsXmgT8LuMd/view?usp=sharing).
+
 
 
 # Tokens
