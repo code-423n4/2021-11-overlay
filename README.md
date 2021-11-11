@@ -117,18 +117,79 @@ Overlay V1 Core has three different economic mechanisms to manage the risk assoc
 
 3. Funding rates: overweight open interest side on a market pays the underweight open interest side to incentivize a drawdown in imbalance over time
 
-To deter front-running the protocol adds:
+To deter front-running the oracle, the protocol adds:
 
 - Bid/ask spread to the price fetched from the oracle feed
+
 - Market impact fee charged on the size of the position entered into
 
-
-Initial data streams to be offered as markets on Overlay will be Uniswap V3 price feeds.
+Initial data streams to be offered as markets on Overlay will be Uniswap V3 price feeds (TWAPs).
 
 
 # Contracts
 
-Contracts under audit are listed below.
+Contracts under audit are listed below. Any contracts not in this list are to be ignored for this contest.
+
+**overlay-v1-core**
+
+| Contract  | sloc |
+| ------------- | ------------- |
+| OverlayV1Token.sol  | 29  |
+| OverlayV1UniswapV3Market.sol  | 307  |
+| collateral/OverlayV1OVLCollateral.sol  | 337  |
+| market/OverlayV1Comptroller.sol  | 371  |
+| market/OverlayV1Governance.sol  | 96  |
+| market/OverlayV1Market.sol  | 106  |
+| market/OverlayV1OI.sol  | 107  |
+| market/OverlayV1PricePoint.sol  | 88  |
+| mothership/OverlayV1Mothership.sol  | 124  |
+| libraries/Position.sol  | 292  |
+
+
+## Modules
+
+See [docs/module-system.md](https://github.com/overlay-market/overlay-v1-core/blob/main/docs/module-system.md) in the `overlay-market/overlay-v1-core` repo for a detailed explanation of module interactions. Module system diagram in [docs/module-system.pdf](https://github.com/overlay-market/overlay-v1-core/blob/main/docs/module-system.pdf).
+
+V1 Core relies on four modules:
+
+- Collaterals Module
+- Markets Module
+- OVL Module
+- Mothership Module
+
+
+### Collaterals Module
+
+Collaterals module consists of collateral managers specializing in different types of collateral. Trader interactions with the system occur through collateral managers.
+
+Traders deposit collateral to the specific collateral manager supporting their collateral type. The collateral manager subsequently enters open interest on the market the trader wishes to enter a position on. On exit, collateral managers remove open interest from the market and return collateral to the trader, adjusting for PnL associated with the position. Positions are issued as shares of an ERC1155 by the collateral manager.
+
+Collateral managers are given mint and burn permissions on the OVL token and the ability to enter/exit open interest on markets by the mothership contract.
+
+
+### Markets Module
+
+Markets module consists of markets on different data streams. Traders do not interact directly with the market contract. Only collateral managers are permitted to interact with market contracts, in order to enter or exit open interest on a market.
+
+Each market tracks:
+
+- Total open interest outstanding on long and short sides
+- Accumulator snapshots for how much of the open interest cap has been entered into in the past
+- Accumulator snapshots for how much OVL has been printed in the past
+- Historical prices fetched from the oracle
+- Collateral managers approved by governance to add/remove open interest
+
+
+### OVL Module
+
+OVL module consists of an ERC20 token with permissioned mint and burn functions. Upon initialization, collateral managers are given permission to mint and burn OVL to compensate traders for their PnL on market positions.
+
+
+### Mothership Module
+
+Mothership module consists of a mothership contract through which governance can add or remove markets and collateral managers. Access control roles for governance to tune per-market risk parameters are also defined on the mothership contract.
+
+
 
 
 # Mathematical Models
@@ -141,6 +202,7 @@ It is most concerned with addressing the question of how to set risk parameters 
 - `pbnj`: bid/ask static spread
 - `lmbda`: market impact
 - `staticCap`: open interest cap
+- `priceFrameCap`: payoff cap
 - `brrrrdExpected`: expected worst-case inflation rate
 
 Original whitepaper outlining the vision for the protocol is [here](https://drive.google.com/file/d/1Jhpah-KPvX1C9bxPKxiorxsXmgT8LuMd/view?usp=sharing).
