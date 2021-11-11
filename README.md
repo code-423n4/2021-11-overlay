@@ -25,11 +25,11 @@ Some of the checklists in this doc are for **C4 (🐺)** and some of them are fo
 
 Under "SPONSORS ADD INFO HERE" heading below, include the following:
 
-- [ ] Name of each contract and:
-  - [ ] lines of code in each
+- [X] Name of each contract and:
+  - [X] lines of code in each
   - [ ] external contracts called in each
-  - [ ] libraries used in each
-- [ ] Describe any novel or unique curve logic or mathematical models implemented in the contracts
+  - [X] libraries used in each
+- [X] Describe any novel or unique curve logic or mathematical models implemented in the contracts
 - [ ] Does the token conform to the ERC-20 standard? In what specific ways does it differ?
 - [ ] Describe anything else that adds any special logic that makes your approach unique
 - [ ] Identify any areas of specific concern in reviewing the code
@@ -123,7 +123,7 @@ To deter front-running the oracle, the protocol adds:
 
 - Market impact fee charged on the size of the position entered into
 
-Initial data streams to be offered as markets on Overlay will be Uniswap V3 and Balancer V2 price feeds (TWAPs).
+Initial data streams to be offered as markets on Overlay will be Uniswap V3 price feeds and Balancer V2 price feeds (TWAPs).
 
 
 # Contracts
@@ -132,18 +132,18 @@ Contracts under audit are listed below. Any contracts not in this list are to be
 
 **overlay-v1-core**
 
-| Contract  | sloc |
-| ------------- | ------------- |
-| OverlayV1Token.sol  | 29  |
-| OverlayV1UniswapV3Market.sol  | 307  |
-| collateral/OverlayV1OVLCollateral.sol  | 337  |
-| market/OverlayV1Comptroller.sol  | 371  |
-| market/OverlayV1Governance.sol  | 96  |
-| market/OverlayV1Market.sol  | 106  |
-| market/OverlayV1OI.sol  | 107  |
-| market/OverlayV1PricePoint.sol  | 88  |
-| mothership/OverlayV1Mothership.sol  | 124  |
-| libraries/Position.sol  | 292  |
+| Contract  | sloc | External Calls | Libraries |
+| ------------- | ------------- | ------------- | ------------- |
+| OverlayV1Token.sol  | 29  |  | [OpenZeppelin/token/ERC20](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20.sol), [OpenZeppelin/access](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/AccessControlEnumerable.sol)  |
+| OverlayV1UniswapV3Market.sol  | 307  |  | [BalancerV2/utils/math/FixedPoint](https://github.com/balancer-labs/balancer-v2-monorepo/tree/master/pkg/solidity-utils/contracts/math), [UniswapV3-periphery/libraries/OracleLibrary](https://github.com/Uniswap/v3-periphery/blob/main/contracts/libraries/OracleLibrary.sol) |
+| collateral/OverlayV1OVLCollateral.sol  | 337  |  | [OpenZeppelin/token/ERC1155](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC1155/extensions/ERC1155Supply.sol)  |
+| market/OverlayV1Comptroller.sol  | 371  |  | [OpenZeppelin/utils/math](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/math/Math.sol) |
+| market/OverlayV1Governance.sol  | 96  |  |  |
+| market/OverlayV1Market.sol  | 106  |  | [BalancerV2/utils/math/FixedPoint](https://github.com/balancer-labs/balancer-v2-monorepo/tree/master/pkg/solidity-utils/contracts/math) |
+| market/OverlayV1OI.sol  | 107  |  | [BalancerV2/utils/math/FixedPoint](https://github.com/balancer-labs/balancer-v2-monorepo/tree/master/pkg/solidity-utils/contracts/math) |
+| market/OverlayV1PricePoint.sol  | 88  |  | [BalancerV2/utils/math/FixedPoint](https://github.com/balancer-labs/balancer-v2-monorepo/tree/master/pkg/solidity-utils/contracts/math), [OpenZeppelin/utils/math](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/math/Math.sol) |
+| mothership/OverlayV1Mothership.sol  | 124  |  | [OpenZeppelin/access](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/AccessControlEnumerable.sol)  |
+| libraries/Position.sol  | 292  |  | [BalancerV2/utils/math/FixedPoint](https://github.com/balancer-labs/balancer-v2-monorepo/tree/master/pkg/solidity-utils/contracts/math), [OpenZeppelin/utils/math](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/math/Math.sol) |
 
 
 ## Modules
@@ -173,25 +173,25 @@ Markets module consists of markets on different data streams. Traders do not int
 
 Each market inherits from `OverlayV1Market.sol` and tracks:
 
-- Total open interest outstanding on long and short sides in `OverlayV1OI.sol`:
+- Total open interest outstanding on long and short sides. In `OverlayV1OI.sol`:
 ```
 uint256 internal __oiLong__; // total long open interest
 uint256 internal __oiShort__; // total short open interest
 ```
-- Accumulator snapshots for how much of the open interest cap has been entered into in the past in `OverlayV1Comptroller.sol`:
+- Accumulator snapshots for how much of the open interest cap has been entered into in the past. In `OverlayV1Comptroller.sol`:
 ```
 Roller[60] public impactRollers;
 ```
-- Accumulator snapshots for how much OVL has been printed in the past in `OverlayV1Comptroller.sol`:
+- Accumulator snapshots for how much OVL has been printed in the past. In `OverlayV1Comptroller.sol`:
 ```
 Roller[60] public brrrrdRollers;
 ```
-- Historical prices fetched from the oracle in `OverlayV1PricePoint.sol`:
+- Historical prices fetched from the oracle. In `OverlayV1PricePoint.sol`:
 ```
 // mapping from price point index to realized historical prices
 PricePoint[] internal _pricePoints;
 ```
-- Collateral managers approved by governance to add/remove open interest in `OverlayV1Governance.sol`:
+- Collateral managers approved by governance to add/remove open interest. In `OverlayV1Governance.sol`:
 ```
 mapping (address => bool) public isCollateral;
 ```
@@ -237,5 +237,11 @@ Original whitepaper outlining the vision for the protocol is [here](https://driv
 
 # Areas of Concern
 
+
+[ OLD ]
+
+- Oracle attacks: front-running, manipulation
+- Robustness of economic mechanisms: whether our risk framework will work in practice
+- General failure of our mechanisms and constructs in solidity — price fetching, rolling oi cap accounting, composure of our smart contract system (governance contracts, market contract integration with collateral manager)
 
 # Helpful Resources
