@@ -135,15 +135,15 @@ Contracts under audit are listed below. Any contracts not in this list are to be
 | Contract  | sloc | External Calls | Libraries |
 | ------------- | ------------- | ------------- | ------------- |
 | OverlayV1Token.sol  | 29  |  | [OpenZeppelin/token/ERC20](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20.sol), [OpenZeppelin/access](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/AccessControlEnumerable.sol)  |
-| OverlayV1UniswapV3Market.sol  | 307  |  | [BalancerV2/utils/math/FixedPoint](https://github.com/balancer-labs/balancer-v2-monorepo/tree/master/pkg/solidity-utils/contracts/math), [UniswapV3-periphery/libraries/OracleLibrary](https://github.com/Uniswap/v3-periphery/blob/main/contracts/libraries/OracleLibrary.sol) |
-| collateral/OverlayV1OVLCollateral.sol  | 337  |  | [OpenZeppelin/token/ERC1155](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC1155/extensions/ERC1155Supply.sol)  |
+| OverlayV1UniswapV3Market.sol  | 307  | UniswapV3Pool  | [BalancerV2/utils/math/FixedPoint](https://github.com/balancer-labs/balancer-v2-monorepo/blob/master/pkg/solidity-utils/contracts/math/FixedPoint.sol), [UniswapV3-periphery/libraries/OracleLibrary](https://github.com/Uniswap/v3-periphery/blob/main/contracts/libraries/OracleLibrary.sol) |
+| collateral/OverlayV1OVLCollateral.sol  | 337  |  OverlayV1Mothership, OverlayV1Token  | [OpenZeppelin/token/ERC1155](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC1155/extensions/ERC1155Supply.sol)  |
 | market/OverlayV1Comptroller.sol  | 371  |  | [OpenZeppelin/utils/math](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/math/Math.sol) |
-| market/OverlayV1Governance.sol  | 96  |  |  |
-| market/OverlayV1Market.sol  | 106  |  | [BalancerV2/utils/math/FixedPoint](https://github.com/balancer-labs/balancer-v2-monorepo/tree/master/pkg/solidity-utils/contracts/math) |
-| market/OverlayV1OI.sol  | 107  |  | [BalancerV2/utils/math/FixedPoint](https://github.com/balancer-labs/balancer-v2-monorepo/tree/master/pkg/solidity-utils/contracts/math) |
-| market/OverlayV1PricePoint.sol  | 88  |  | [BalancerV2/utils/math/FixedPoint](https://github.com/balancer-labs/balancer-v2-monorepo/tree/master/pkg/solidity-utils/contracts/math), [OpenZeppelin/utils/math](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/math/Math.sol) |
+| market/OverlayV1Governance.sol  | 96  | OverlayV1Mothership  |  |
+| market/OverlayV1Market.sol  | 106  | OverlayV1Mothership  | [BalancerV2/utils/math/FixedPoint](https://github.com/balancer-labs/balancer-v2-monorepo/blob/master/pkg/solidity-utils/contracts/math/FixedPoint.sol) |
+| market/OverlayV1OI.sol  | 107  |  | [BalancerV2/utils/math/FixedPoint](https://github.com/balancer-labs/balancer-v2-monorepo/blob/master/pkg/solidity-utils/contracts/math/FixedPoint.sol) |
+| market/OverlayV1PricePoint.sol  | 88  |  | [BalancerV2/utils/math/FixedPoint](https://github.com/balancer-labs/balancer-v2-monorepo/blob/master/pkg/solidity-utils/contracts/math/FixedPoint.sol), [OpenZeppelin/utils/math](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/math/Math.sol) |
 | mothership/OverlayV1Mothership.sol  | 124  |  | [OpenZeppelin/access](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/AccessControlEnumerable.sol)  |
-| libraries/Position.sol  | 292  |  | [BalancerV2/utils/math/FixedPoint](https://github.com/balancer-labs/balancer-v2-monorepo/tree/master/pkg/solidity-utils/contracts/math), [OpenZeppelin/utils/math](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/math/Math.sol) |
+| libraries/Position.sol  | 292  |  | [BalancerV2/utils/math/FixedPoint](https://github.com/balancer-labs/balancer-v2-monorepo/blob/master/pkg/solidity-utils/contracts/math/FixedPoint.sol), [OpenZeppelin/utils/math](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/math/Math.sol) |
 
 
 ## Modules
