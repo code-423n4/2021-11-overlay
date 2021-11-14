@@ -57,7 +57,7 @@ Contracts under audit are listed below. Any contracts not in this list are to be
 
 | Contract  | sloc | External Calls | Libraries |
 | ------------- | ------------- | ------------- | ------------- |
-| OverlayV1Token.sol  | 29  |  | [OpenZeppelin/token/ERC20](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20.sol), [OpenZeppelin/access](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/AccessControlEnumerable.sol)  |
+| ovl/OverlayToken.sol  | 29  |  | [OpenZeppelin/token/ERC20](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20.sol), [OpenZeppelin/access](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/AccessControlEnumerable.sol)  |
 | OverlayV1UniswapV3Market.sol  | 307  | UniswapV3Pool  | [BalancerV2/utils/math/FixedPoint](https://github.com/balancer-labs/balancer-v2-monorepo/blob/master/pkg/solidity-utils/contracts/math/FixedPoint.sol), [UniswapV3-periphery/libraries/OracleLibrary](https://github.com/Uniswap/v3-periphery/blob/main/contracts/libraries/OracleLibrary.sol) |
 | collateral/OverlayV1OVLCollateral.sol  | 337  |  OverlayV1Mothership, OverlayV1Token  | [OpenZeppelin/token/ERC1155](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC1155/extensions/ERC1155Supply.sol)  |
 | market/OverlayV1Comptroller.sol  | 371  |  | [OpenZeppelin/utils/math](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/math/Math.sol) |
@@ -423,6 +423,7 @@ There are two token contracts used. Both inherit from the OpenZeppelin library.
 `OverlayToken.sol` (ERC-20)
 - Extends OpenZeppelin ERC-20 implementation for permissioned mint and burn functionality
 - Defines `MINTER_ROLE` and `BURNER_ROLE` access permissions, with associated modifiers on `mint()` and `burn()` external functions
+- Adds `transferMint` and `transferBurn` functions that transfer and mint/burn in the same call to save gas
 
 `OverlayV1OVLCollateral.sol` (ERC-1155)
 - Extends OpenZeppelin ERC-1155 implementation
