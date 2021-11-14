@@ -306,15 +306,53 @@ valueAdjusted = V - NO * feeRate
 ```
 
 
-## Funding Payments
+## Funding and Open Interest
+
+Funding is used to incentivize a drawdown in open interest imbalance over time as the protocol effectively takes on the profit liability associated with an imbalance in open interest.
+
+### Funding Payments
+
+If a `compoundingPeriod` has passed and a call to `update()` on an Overlay market is made, funding is paid from the overweight open interest side of the market to the underweight open interest side:
 
 ```
-OI_imb(m) = OI_imb(0) * (1 - 2*k) ** (m)
+fundingPayment = k * (oiLong - oiShort)
+oiLong -= fundingPayment
+oiShort += fundingPayment
 ```
+
+where the payment is made directly between aggregate open interest amounts on a market. If `fundingPayment > 0`, longs pay shorts. If `fundingPayment < 0`, shorts pay longs.
+
+`oiLong` is the total open interest for all outstanding positions on a market on the long side. `oiShort` is the total open interest for all outstanding positions on a market on the short side.
+
+### Shares of Open Interest
+
+Each position tracks its share of the aggregate open interest amounts `(oiLong, oiShort)` through `Position.Info.oiShares`:
+
+```
+struct Info {
+    address market; // the market for the position
+    bool isLong; // whether long or short
+    uint leverage; // discrete initial leverage amount
+    uint pricePoint; // pricePointIndex
+    uint256 oiShares; // shares of total open interest on long/short side, depending on isLong value
+    uint256 debt; // total debt associated with this position
+    uint256 cost; // total amount of collateral initially locked; effectively, cost to enter position
+}
+```
+
+The market contract tracks how many open interest shares are currently outstanding through `oiLongShares` and `oiShortShares` in `OverlayV1OI.sol`.
+
+The open interest associated with a position can then be calculated as
+
+```
+oiForLongPosition = oiLong * posLong.oiShares / oiLongShares
+oiForShortPosition = oiShort * posShort.oiShares / oiShortShares
+```
+
 
 ## Pricing
 
-Every `update()` of UniswapV3 and BalancerV2 markets, the associated Overlay market contract fetches two TWAPs: one at a shorter averaging window, `microWindow` and one at a longer averaging window `macroWindow`.
+Every call to `update()` of the Overlay markets on UniswapV3 pools, the Overlay market contract fetches two TWAPs: one at a shorter averaging window `microWindow` and one at a longer averaging window `macroWindow`.
 
 The `macroWindow` TWAP provides security against spot manipulation after the trader has entered an Overlay position. The `microWindow` TWAP provides security against front-running of the longer TWAP, given the time-weighted average price lags spot by about the same amount of time as the averaging period.
 
@@ -357,9 +395,9 @@ There are two token contracts used. Both inherit from the OpenZeppelin library.
 
 # Areas of Concern
 
-- Oracle attacks: front-running, manipulation
+- Oracle attacks: front-running, manipulation. Assume for Uniswap V3 markets, the spot pool has substantially spread liquidity (e.g. USDC/WETH) or a minimum amount of liquidity at max range due to PCV on long-tail asset pools (e.g. OVL/WETH)
 - Robustness of economic mechanisms: whether our risk framework will work in practice
-- Gas optimizations: the most important flows are `build()` and `unwind()` on the collateral manager
+- Gas optimizations for the most important flows: `build()` and `unwind()` on the collateral manager
 - General failure of our mechanisms and constructs in Solidity — price fetching, rolling oi cap accounting, composure of our smart contract system (governance contracts, market contract integration with collateral manager)
 - Collateral managers and the logic within, as all collateral will be held in there while users have an active position
 
