@@ -473,6 +473,8 @@ oiCap <= lmbda * x / 2
 
 for Uniswap V3, where `x` is the OVL value of the `token0` reserves in the spot pool. For Balancer V2, where the weights are not necessary the same (`wo != wi`), the constraint is replaced by ``oiCap <= lmbda * x * wo / (wi + wo)`` for `wo <= wi`.
 
+This adjustment is implemented at the `OverlayV1UniswapV3Market.sol` level through a function called `depth()`.
+
 
 # Tokens
 
