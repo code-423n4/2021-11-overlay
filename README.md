@@ -476,6 +476,23 @@ for Uniswap V3, where `x` is the OVL value of the `token0` reserves in the spot 
 This adjustment is implemented at the `OverlayV1UniswapV3Market.sol` level through a function called `depth()`.
 
 
+## Liquidations
+
+Positions become liquidatable when the value of the position is less than its initial open interest times a maintenance margin factor
+
+```
+V < MM * OI_0
+```
+
+This is to protect against positions going negative in value. Any contract or user can call a collateral manager's `liquidate()` function for a position that is liquidatable. Upon liquidation, the liquidator receives a portion of the remaining value as a reward
+
+```
+reward = V * MMR;
+```
+
+A portion of the remaining value less rewards is burned to account for times when liquidators don't liquidate a negative value position in time -- the `pos.value()` function has a floor of zero so it will never result in negative values. The rest is taken as a fee by the protocol.
+
+
 # Tokens
 
 There are two token contracts used. Both inherit from the OpenZeppelin library.
