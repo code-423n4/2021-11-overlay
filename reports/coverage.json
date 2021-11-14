@@ -1,0 +1,947 @@
+{
+  "coverage": {
+    "MathTest": {
+      "branches": {
+        "FixedPoint.fraction144": [
+          1,
+          0,
+          1
+        ],
+        "FixedPoint.pow": [
+          2,
+          2,
+          2
+        ]
+      },
+      "statements": {
+        "FixedPoint.decode144": [
+          1,
+          1
+        ],
+        "FixedPoint.div": [
+          2,
+          2
+        ],
+        "FixedPoint.encode144": [
+          1,
+          1
+        ],
+        "FixedPoint.fraction144": [
+          2,
+          2
+        ],
+        "FixedPoint.gt": [
+          1,
+          1
+        ],
+        "FixedPoint.lt": [
+          1,
+          1
+        ],
+        "FixedPoint.mul": [
+          2,
+          2
+        ],
+        "FixedPoint.pow": [
+          4,
+          4
+        ],
+        "MathTest.compound": [
+          1,
+          1
+        ],
+        "MathTest.div": [
+          1,
+          1
+        ],
+        "MathTest.gt": [
+          1,
+          1
+        ],
+        "MathTest.lt": [
+          1,
+          1
+        ],
+        "MathTest.mul": [
+          1,
+          1
+        ],
+        "MathTest.pow": [
+          1,
+          1
+        ]
+      },
+      "totals": {
+        "branches": [
+          3,
+          2,
+          3
+        ],
+        "statements": [
+          20,
+          20
+        ]
+      }
+    },
+    "MirinFactoryMock": {
+      "branches": {
+        "MirinFactoryMock.addPricePoints": [
+          1,
+          0,
+          1
+        ]
+      },
+      "statements": {
+        "MirinFactoryMock.addPricePoints": [
+          2,
+          2
+        ],
+        "MirinFactoryMock.createPool": [
+          3,
+          3
+        ]
+      },
+      "totals": {
+        "branches": [
+          1,
+          0,
+          1
+        ],
+        "statements": [
+          5,
+          5
+        ]
+      }
+    },
+    "OverlayToken": {
+      "branches": {
+        "AccessControl._grantRole": [
+          0,
+          1,
+          1
+        ],
+        "AccessControl._revokeRole": [
+          0,
+          0,
+          1
+        ],
+        "AccessControl.grantRole": [
+          1,
+          0,
+          1
+        ],
+        "AccessControl.renounceRole": [
+          0,
+          0,
+          1
+        ],
+        "AccessControl.revokeRole": [
+          0,
+          0,
+          1
+        ],
+        "ERC20._approve": [
+          2,
+          0,
+          2
+        ],
+        "ERC20._burn": [
+          2,
+          0,
+          2
+        ],
+        "ERC20._mint": [
+          1,
+          0,
+          1
+        ],
+        "ERC20._transfer": [
+          3,
+          0,
+          3
+        ],
+        "ERC20.decreaseAllowance": [
+          0,
+          0,
+          1
+        ],
+        "ERC20.transferFrom": [
+          1,
+          0,
+          1
+        ],
+        "OverlayToken.burn": [
+          0,
+          0,
+          1
+        ],
+        "OverlayToken.mint": [
+          0,
+          0,
+          1
+        ]
+      },
+      "statements": {
+        "AccessControl._grantRole": [
+          2,
+          2
+        ],
+        "AccessControl._revokeRole": [
+          0,
+          2
+        ],
+        "AccessControl.getRoleAdmin": [
+          0,
+          1
+        ],
+        "AccessControl.grantRole": [
+          2,
+          2
+        ],
+        "AccessControl.hasRole": [
+          1,
+          1
+        ],
+        "AccessControl.renounceRole": [
+          0,
+          2
+        ],
+        "AccessControl.revokeRole": [
+          0,
+          1
+        ],
+        "AccessControl.supportsInterface": [
+          0,
+          1
+        ],
+        "Context._msgSender": [
+          1,
+          1
+        ],
+        "ERC20._approve": [
+          4,
+          4
+        ],
+        "ERC20._burn": [
+          5,
+          5
+        ],
+        "ERC20._mint": [
+          4,
+          4
+        ],
+        "ERC20._transfer": [
+          6,
+          6
+        ],
+        "ERC20.allowance": [
+          0,
+          1
+        ],
+        "ERC20.approve": [
+          2,
+          2
+        ],
+        "ERC20.balanceOf": [
+          1,
+          1
+        ],
+        "ERC20.decimals": [
+          1,
+          1
+        ],
+        "ERC20.decreaseAllowance": [
+          0,
+          3
+        ],
+        "ERC20.increaseAllowance": [
+          0,
+          1
+        ],
+        "ERC20.name": [
+          1,
+          1
+        ],
+        "ERC20.symbol": [
+          1,
+          1
+        ],
+        "ERC20.totalSupply": [
+          1,
+          1
+        ],
+        "ERC20.transfer": [
+          1,
+          1
+        ],
+        "ERC20.transferFrom": [
+          4,
+          4
+        ],
+        "OverlayToken.burn": [
+          1,
+          1
+        ],
+        "OverlayToken.mint": [
+          1,
+          1
+        ]
+      },
+      "totals": {
+        "branches": [
+          10,
+          1,
+          17
+        ],
+        "statements": [
+          39,
+          51
+        ]
+      }
+    }
+  },
+  "highlights": {
+    "branches": {
+      "MathTest": {
+        "21": [
+          [
+            3302,
+            3317,
+            "yellow",
+            ""
+          ],
+          [
+            3744,
+            3750,
+            "green",
+            ""
+          ],
+          [
+            3817,
+            3823,
+            "green",
+            ""
+          ]
+        ],
+        "34": []
+      },
+      "MirinFactoryMock": {
+        "18": [],
+        "30": [
+          [
+            815,
+            827,
+            "yellow",
+            ""
+          ]
+        ],
+        "31": []
+      },
+      "OverlayToken": {
+        "0": [
+          [
+            4648,
+            4689,
+            "yellow",
+            ""
+          ],
+          [
+            5835,
+            5858,
+            "red",
+            ""
+          ],
+          [
+            5111,
+            5152,
+            "red",
+            ""
+          ],
+          [
+            7026,
+            7048,
+            "yellow",
+            ""
+          ],
+          [
+            7256,
+            7278,
+            "red",
+            ""
+          ]
+        ],
+        "10": [],
+        "11": [],
+        "12": [],
+        "14": [
+          [
+            695,
+            727,
+            "red",
+            ""
+          ],
+          [
+            795,
+            827,
+            "red",
+            ""
+          ]
+        ],
+        "6": [
+          [
+            4971,
+            4997,
+            "yellow",
+            ""
+          ],
+          [
+            6420,
+            6455,
+            "red",
+            ""
+          ],
+          [
+            9597,
+            9616,
+            "yellow",
+            ""
+          ],
+          [
+            9675,
+            9696,
+            "yellow",
+            ""
+          ],
+          [
+            7182,
+            7202,
+            "yellow",
+            ""
+          ],
+          [
+            7262,
+            7285,
+            "yellow",
+            ""
+          ],
+          [
+            7453,
+            7476,
+            "yellow",
+            ""
+          ],
+          [
+            8023,
+            8044,
+            "yellow",
+            ""
+          ],
+          [
+            8673,
+            8694,
+            "yellow",
+            ""
+          ],
+          [
+            8864,
+            8888,
+            "yellow",
+            ""
+          ]
+        ],
+        "7": []
+      }
+    },
+    "statements": {
+      "MathTest": {
+        "21": [
+          [
+            4466,
+            4487,
+            "green",
+            ""
+          ],
+          [
+            4268,
+            4289,
+            "green",
+            ""
+          ],
+          [
+            3294,
+            3345,
+            "green",
+            ""
+          ],
+          [
+            3355,
+            3421,
+            "green",
+            ""
+          ],
+          [
+            2209,
+            2254,
+            "green",
+            ""
+          ],
+          [
+            2300,
+            2348,
+            "green",
+            ""
+          ],
+          [
+            4869,
+            4906,
+            "green",
+            ""
+          ],
+          [
+            981,
+            1023,
+            "green",
+            ""
+          ],
+          [
+            3766,
+            3796,
+            "green",
+            ""
+          ],
+          [
+            3839,
+            3850,
+            "green",
+            ""
+          ],
+          [
+            3968,
+            3989,
+            "green",
+            ""
+          ],
+          [
+            4028,
+            4064,
+            "green",
+            ""
+          ],
+          [
+            1985,
+            2014,
+            "green",
+            ""
+          ],
+          [
+            2572,
+            2620,
+            "green",
+            ""
+          ]
+        ],
+        "34": [
+          [
+            1095,
+            1109,
+            "green",
+            ""
+          ],
+          [
+            505,
+            544,
+            "green",
+            ""
+          ],
+          [
+            1850,
+            1904,
+            "green",
+            ""
+          ],
+          [
+            1363,
+            1377,
+            "green",
+            ""
+          ],
+          [
+            802,
+            841,
+            "green",
+            ""
+          ],
+          [
+            1582,
+            1621,
+            "green",
+            ""
+          ]
+        ]
+      },
+      "MirinFactoryMock": {
+        "18": [],
+        "30": [
+          [
+            807,
+            837,
+            "green",
+            ""
+          ],
+          [
+            847,
+            979,
+            "green",
+            ""
+          ],
+          [
+            400,
+            522,
+            "green",
+            ""
+          ],
+          [
+            532,
+            560,
+            "green",
+            ""
+          ],
+          [
+            570,
+            598,
+            "green",
+            ""
+          ]
+        ],
+        "31": []
+      },
+      "OverlayToken": {
+        "0": [
+          [
+            4270,
+            4299,
+            "red",
+            ""
+          ],
+          [
+            3667,
+            3773,
+            "red",
+            ""
+          ],
+          [
+            4640,
+            4741,
+            "green",
+            ""
+          ],
+          [
+            4752,
+            4777,
+            "green",
+            ""
+          ],
+          [
+            5827,
+            5910,
+            "red",
+            ""
+          ],
+          [
+            5921,
+            5947,
+            "red",
+            ""
+          ],
+          [
+            3961,
+            3997,
+            "green",
+            ""
+          ],
+          [
+            5103,
+            5205,
+            "red",
+            ""
+          ],
+          [
+            7064,
+            7100,
+            "green",
+            ""
+          ],
+          [
+            7114,
+            7159,
+            "green",
+            ""
+          ],
+          [
+            7294,
+            7331,
+            "red",
+            ""
+          ],
+          [
+            7345,
+            7390,
+            "red",
+            ""
+          ]
+        ],
+        "10": [
+          [
+            658,
+            675,
+            "green",
+            ""
+          ]
+        ],
+        "11": [
+          [
+            864,
+            911,
+            "red",
+            ""
+          ]
+        ],
+        "12": [],
+        "14": [
+          [
+            938,
+            964,
+            "green",
+            ""
+          ],
+          [
+            1050,
+            1074,
+            "green",
+            ""
+          ]
+        ],
+        "6": [
+          [
+            3162,
+            3181,
+            "green",
+            ""
+          ],
+          [
+            3006,
+            3015,
+            "green",
+            ""
+          ],
+          [
+            3339,
+            3364,
+            "green",
+            ""
+          ],
+          [
+            3912,
+            3946,
+            "red",
+            ""
+          ],
+          [
+            2091,
+            2103,
+            "green",
+            ""
+          ],
+          [
+            4190,
+            4229,
+            "green",
+            ""
+          ],
+          [
+            4239,
+            4250,
+            "green",
+            ""
+          ],
+          [
+            4846,
+            4882,
+            "green",
+            ""
+          ],
+          [
+            4963,
+            5042,
+            "green",
+            ""
+          ],
+          [
+            5052,
+            5109,
+            "green",
+            ""
+          ],
+          [
+            5120,
+            5131,
+            "green",
+            ""
+          ],
+          [
+            5637,
+            5717,
+            "red",
+            ""
+          ],
+          [
+            2295,
+            2309,
+            "green",
+            ""
+          ],
+          [
+            6412,
+            6497,
+            "red",
+            ""
+          ],
+          [
+            6507,
+            6574,
+            "red",
+            ""
+          ],
+          [
+            6585,
+            6596,
+            "red",
+            ""
+          ],
+          [
+            3676,
+            3718,
+            "green",
+            ""
+          ],
+          [
+            9589,
+            9657,
+            "green",
+            ""
+          ],
+          [
+            9667,
+            9735,
+            "green",
+            ""
+          ],
+          [
+            9746,
+            9782,
+            "green",
+            ""
+          ],
+          [
+            9792,
+            9829,
+            "green",
+            ""
+          ],
+          [
+            7174,
+            7244,
+            "green",
+            ""
+          ],
+          [
+            7254,
+            7325,
+            "green",
+            ""
+          ],
+          [
+            7445,
+            7519,
+            "green",
+            ""
+          ],
+          [
+            7529,
+            7571,
+            "green",
+            ""
+          ],
+          [
+            7581,
+            7611,
+            "green",
+            ""
+          ],
+          [
+            7622,
+            7662,
+            "green",
+            ""
+          ],
+          [
+            8015,
+            8080,
+            "green",
+            ""
+          ],
+          [
+            8151,
+            8173,
+            "green",
+            ""
+          ],
+          [
+            8183,
+            8211,
+            "green",
+            ""
+          ],
+          [
+            8221,
+            8263,
+            "green",
+            ""
+          ],
+          [
+            8665,
+            8732,
+            "green",
+            ""
+          ],
+          [
+            8856,
+            8927,
+            "green",
+            ""
+          ],
+          [
+            8937,
+            8981,
+            "green",
+            ""
+          ],
+          [
+            8991,
+            9013,
+            "green",
+            ""
+          ],
+          [
+            9024,
+            9066,
+            "green",
+            ""
+          ]
+        ],
+        "7": []
+      }
+    }
+  },
+  "sha1": {}
+}
