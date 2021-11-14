@@ -391,7 +391,6 @@ where `pressure` is the fraction of the open interest cap that has been recently
 
 ```
 pressure = sum_{i} OI_i / oiCap
-
 ```
 
 for all positions `i` built between `t = now - impactWindow` and `t = now`. Pressure is calculated using the `impactRollers` rolling accumulator snapshots.
@@ -399,8 +398,72 @@ for all positions `i` built between `t = now - impactWindow` and `t = now`. Pres
 
 ## Open Interest Caps
 
-Q
+Open interest caps are used to limit the total exposure the protocol takes on for each market at any given time.
 
+Whenever a new position is built, the market contract through `addOi()` checks whether the additional open interest from the trade, adjusted for impact and fees, will push the aggregate open interest value for the side of the trade above the cap:
+
+```
+function addOi(
+    bool _isLong,
+    uint256 _openInterest,
+    uint256 _oiCap
+) internal {
+
+    if (_isLong) {
+
+        oiLongShares += _openInterest;
+
+        uint _oiLong = __oiLong__ + _openInterest;
+
+        require(_oiLong <= _oiCap, "OVLV1:>cap");
+
+        __oiLong__ = _oiLong;
+
+    } else {
+
+        oiShortShares += _openInterest;
+
+        uint _oiShort = __oiShort__ + _openInterest;
+
+        require(_oiShort <= _oiCap, "OVLV1:>cap");
+
+        __oiShort__ = _oiShort;
+
+    }
+
+}
+```
+
+If so, the build reverts.
+
+### Dynamic Cap
+
+The absolute maximum open interest the market can accept on either the long `oiLong` or short `oiShort` side is dictated by the static governance parameter `staticCap`.
+
+In the event the system has printed more in the recent past than expected, the open interest cap dynamically lowers to take on less new risk in the near future.
+
+The open interest cap is adjusted downward by
+
+```
+dynamicCap = staticCap * ( 2 - brrrrdRealized / brrrrdExpected )
+```
+
+when `brrrrdRealized > brrrrdExpected`, with a floor at `dynamicCap = 0`.
+
+`brrrrdExpected` is the governance parameter specifying the expected amount of printing over a rolling window `brrrrdWindowMacro`. `brrrrdRealized` is the realized amount printed less burns over the last rolling window
+
+```
+brrrrdRealized = sum_{i} brrrrd_i - antiBrrrrd_i
+```
+
+for all mints or burns `i` between `t = now - brrrrdWindowMacro` and `t = now`. Realized amount printed in the past is calculated using the `brrrrdRollers` rolling accumulator snapshots.
+
+`intake()` in the comptroller contract registers either a mint `brrrrd` or a burn `antiBrrrrd` on unwind, as well as the impact fee burned on build.
+
+
+### Depth
+
+Uni V3 and Balancer V2
 
 
 # Tokens
