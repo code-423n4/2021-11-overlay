@@ -463,7 +463,15 @@ for all mints or burns `i` between `t = now - brrrrdWindowMacro` and `t = now`. 
 
 ### Depth
 
-Uni V3 and Balancer V2
+Uni V3 and Balancer V2 have a unique manipulation attack vector that we protect against through market impact and open interest caps. A trader could front-run themselves by swapping e.g. DAI => ETH => OVL through the spot pool and immediately using the resulting OVL received as collateral for a long position on the ETH/DAI Overlay market.
+
+Market impact makes this attack unprofitable in all cases if the open interest cap is low enough, so that slippage on the Overlay market is high enough -- lower `oiCap` means higher pressure for same amount of `oi`. To prevent this attack, the open interest cap should be bounded by
+
+```
+oiCap <= lmbda * x / 2
+```
+
+for Uniswap V3, where `x` is the OVL value of the `token0` reserves in the spot pool. For Balancer V2, where the weights are not necessary the same (`wo != wi`), the constraint is replaced by ``oiCap <= lmbda * x * wo / (wi + wo)`` for `wo <= wi`.
 
 
 # Tokens
