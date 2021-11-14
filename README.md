@@ -30,8 +30,8 @@ Under "SPONSORS ADD INFO HERE" heading below, include the following:
   - [X] external contracts called in each
   - [X] libraries used in each
 - [X] Describe any novel or unique curve logic or mathematical models implemented in the contracts
-- [ ] Does the token conform to the ERC-20 standard? In what specific ways does it differ?
-- [ ] Describe anything else that adds any special logic that makes your approach unique
+- [X] Does the token conform to the ERC-20 standard? In what specific ways does it differ?
+- [X] Describe anything else that adds any special logic that makes your approach unique
 - [X] Identify any areas of specific concern in reviewing the code
 - [ ] Add all of the code to this repo that you want reviewed
 - [ ] Create a PR to this repo with the above changes.
@@ -225,6 +225,8 @@ Original whitepaper outlining the vision for the protocol is [here](https://driv
 
 ## Profit and Loss
 
+OVL acts as the settlement currency of the system, with all PnL, value, and notional calculations made in OVL terms.
+
 The value of a position that the collateral manager needs to return at unwind is
 
 ```
@@ -340,21 +342,25 @@ struct Info {
 }
 ```
 
-The market contract tracks how many open interest shares are currently outstanding through `oiLongShares` and `oiShortShares` in `OverlayV1OI.sol`.
+The market contract tracks the total of how many open interest shares are currently outstanding through `oiLongShares` and `oiShortShares` in `OverlayV1OI.sol`.
 
-The open interest associated with a position can then be calculated as
+The open interest associated with a full position can then be calculated as
 
 ```
 oiForLongPosition = oiLong * posLong.oiShares / oiLongShares
 oiForShortPosition = oiShort * posShort.oiShares / oiShortShares
 ```
 
+Traders own shares of the position itself through the ERC-1155 issued by the collateral manager.
+
 
 ## Pricing
 
-Every call to `update()` of the Overlay markets on UniswapV3 pools, the Overlay market contract fetches two TWAPs: one at a shorter averaging window `microWindow` and one at a longer averaging window `macroWindow`.
+For each block in which a call to `update()` of the Overlay markets on UniswapV3 pools is made, the Overlay market contract fetches two TWAPs: one at a shorter averaging window `microWindow` and one at a longer averaging window `macroWindow`.
 
 The `macroWindow` TWAP provides security against spot manipulation after the trader has entered an Overlay position. The `microWindow` TWAP provides security against front-running of the longer TWAP, given the time-weighted average price lags spot by about the same amount of time as the averaging period.
+
+Typical values for the averaging windows would be `macroWindow = 1 hr` and `microWindow = 10 min`.
 
 ### Bid-Ask Spread
 
@@ -373,7 +379,23 @@ Longs get the ask on entry and the bid on exit. Shorts get the bid on entry and 
 
 ### Market Impact
 
-lmbda
+A further market impact fee (i.e. slippage) is burned from the position's staked collateral to protect against front-running the time lag between the `microWindow` and spot when the static spread is not enough to cover a very large jump. Market impact limits the damage by charging on position size proposed. It also protects the system from being significantly exploited by traders who may have more information than the Overlay market has.
+
+The market impact fee burned is
+
+```
+impactFee = OI * ( 1 - e**(-lmbda * pressure) )
+```
+
+where `pressure` is the fraction of the open interest cap that has been recently entered into by positions over the last `impactWindow = microWindow` rolling window
+
+```
+pressure = sum_{i} OI_i / oiCap
+
+```
+
+for all positions `i` built between `t = now - impactWindow` and `t = now`. Pressure is calculated using the `impactRollers` rolling accumulator snapshots.
+
 
 ## Open Interest Caps
 
@@ -396,9 +418,13 @@ There are two token contracts used. Both inherit from the OpenZeppelin library.
 # Areas of Concern
 
 - Oracle attacks: front-running, manipulation. Assume for Uniswap V3 markets, the spot pool has substantially spread liquidity (e.g. USDC/WETH) or a minimum amount of liquidity at max range due to PCV on long-tail asset pools (e.g. OVL/WETH)
+
 - Robustness of economic mechanisms: whether our risk framework will work in practice
+
 - Gas optimizations for the most important flows: `build()` and `unwind()` on the collateral manager
+
 - General failure of our mechanisms and constructs in Solidity — price fetching, rolling oi cap accounting, composure of our smart contract system (governance contracts, market contract integration with collateral manager)
+
 - Collateral managers and the logic within, as all collateral will be held in there while users have an active position
 
 If wardens are unclear on which areas to look at or which areas are important please feel free to ask in the contest Discord channel.
