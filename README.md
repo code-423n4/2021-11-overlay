@@ -27,12 +27,12 @@ Under "SPONSORS ADD INFO HERE" heading below, include the following:
 
 - [X] Name of each contract and:
   - [X] lines of code in each
-  - [ ] external contracts called in each
+  - [X] external contracts called in each
   - [X] libraries used in each
 - [X] Describe any novel or unique curve logic or mathematical models implemented in the contracts
 - [ ] Does the token conform to the ERC-20 standard? In what specific ways does it differ?
 - [ ] Describe anything else that adds any special logic that makes your approach unique
-- [ ] Identify any areas of specific concern in reviewing the code
+- [X] Identify any areas of specific concern in reviewing the code
 - [ ] Add all of the code to this repo that you want reviewed
 - [ ] Create a PR to this repo with the above changes.
 
@@ -207,8 +207,6 @@ OVL module consists of an ERC20 token with permissioned mint and burn functions.
 Mothership module consists of a mothership contract through which governance can add or remove markets and collateral managers. Access control roles for governance to tune per-market risk parameters are also defined on the mothership contract.
 
 
-
-
 # Mathematical Models
 
 Updated whitepaper with underlying math can found [here](https://drive.google.com/file/d/1I8uGHwMBg8bPJ4eYrG-5U_WNIDN73TyN/view?usp=sharing).
@@ -225,23 +223,159 @@ It is most concerned with addressing the question of how to set risk parameters 
 Original whitepaper outlining the vision for the protocol is [here](https://drive.google.com/file/d/1Jhpah-KPvX1C9bxPKxiorxsXmgT8LuMd/view?usp=sharing).
 
 
+## Profit and Loss
+
+The value of a position that the collateral manager needs to return at unwind is
+
+```
+V = OI - D +/- OI * ( priceFrame - 1 )
+```
+
+where
+
+- `OI` is the current open interest associated with the position. This can change in time due to funding payments.
+- `D` is the debt associated with the position. This is static.
+- `priceFrame` is the ratio of the exit price divided by the entry price
+
+The PnL for a position that the collateral manager needs to either mint or burn at unwind is
+
+```
+PnL = V - C
+```
+
+where `C` is the initial collateral deposited, adjusted for trading fees and market impact.
+
+If `pos.isLong = true`:
+
+```
+priceFrame = min(exitPrice / entryPrice, priceFrameCap)
+```
+
+- `+/- = +`
+- `exitPrice = pricePoint.bid`
+- `entryPrice = pricePoint.ask`
+
+and if `pos.isLong = false`:
+
+```
+priceFrame = exitPrice / entryPrice
+```
+
+- `+/- = -`
+- `exitPrice = pricePoint.ask`
+- `entryPrice = pricePoint.bid`
+
+
+### Fees
+
+Market impact and trading fees are charged on the notional amount of the position.
+
+#### build
+
+On `build()`, notional amount on which fees are charged is `collateral * leverage`. Market impact and trading fees adjust the collateral amount backing a position
+
+```
+collateralAdjusted = collateral - impactFee - tradeFee
+```
+
+Open interest and debt associated with the position then use the adjusted collateral amount
+
+```
+oiAdjusted = collateralAdjusted * leverage;
+debtAdjusted = oiAdjusted - collateralAdjusted;
+```
+
+for position attributes.
+
+#### unwind
+
+On `unwind()`, notional amount on which trading fees are charged is
+
+```
+NO = V + D
+```
+
+where
+- `V` is the value of the position
+- `D` is the debt
+
+Value returned on unwind is adjusted only for trading fees (no impact on unwind):
+
+```
+valueAdjusted = V - NO * feeRate
+```
+
+
+## Funding Payments
+
+```
+OI_imb(m) = OI_imb(0) * (1 - 2*k) ** (m)
+```
+
+## Pricing
+
+
+### Bid-Ask Spread
+
+pbnj
+
+### Market Impact
+
+lmbda
+
+## Open Interest Caps
+
+Q
+
+
 
 # Tokens
 
+There are two token contracts used. Both inherit from the OpenZeppelin library.
 
-# Special Logic
+`OverlayToken.sol` (ERC-20)
+- Extends OpenZeppelin ERC-20 implementation for permissioned mint and burn functionality
+- Defines `MINTER_ROLE` and `BURNER_ROLE` access permissions, with associated modifiers on `mint()` and `burn()` external functions
 
-
-# Security Assumptions
+`OverlayV1OVLCollateral.sol` (ERC-1155)
+- Extends OpenZeppelin ERC-1155 implementation
 
 
 # Areas of Concern
 
-
-[ OLD ]
-
 - Oracle attacks: front-running, manipulation
 - Robustness of economic mechanisms: whether our risk framework will work in practice
-- General failure of our mechanisms and constructs in solidity — price fetching, rolling oi cap accounting, composure of our smart contract system (governance contracts, market contract integration with collateral manager)
+- Gas optimizations: the most important flows are `build()` and `unwind()` on the collateral manager
+- General failure of our mechanisms and constructs in Solidity — price fetching, rolling oi cap accounting, composure of our smart contract system (governance contracts, market contract integration with collateral manager)
+- Collateral managers and the logic within, as all collateral will be held in there while users have an active position
 
-# Helpful Resources
+If wardens are unclear on which areas to look at or which areas are important please feel free to ask in the contest Discord channel.
+
+
+# Tests
+
+Existing tests are provided in the repo. Tests use a Uniswap mock loaded in `conftest.py` with historical observations from Uniswap V3 `AXS/WETH` and `DAI/WETH` pools.
+
+
+## Requirements
+
+To run the project you need:
+
+- Python >=3.7.2 local development environment
+- [Brownie](https://github.com/eth-brownie/brownie) local environment setup
+- Set env variables for [Etherscan API](https://etherscan.io/apis) and [Infura](https://eth-brownie.readthedocs.io/en/stable/network-management.html?highlight=infura%20environment#using-infura): `ETHERSCAN_TOKEN` and `WEB3_INFURA_PROJECT_ID`
+- Local Ganache environment installed
+
+
+## Compile
+
+```
+brownie compile
+```
+
+
+## Test
+
+```
+brownie test
+```
