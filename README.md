@@ -314,10 +314,24 @@ OI_imb(m) = OI_imb(0) * (1 - 2*k) ** (m)
 
 ## Pricing
 
+Every `update()` of UniswapV3 and BalancerV2 markets, the associated Overlay market contract fetches two TWAPs: one at a shorter averaging window, `microWindow` and one at a longer averaging window `macroWindow`.
+
+The `macroWindow` TWAP provides security against spot manipulation after the trader has entered an Overlay position. The `microWindow` TWAP provides security against front-running of the longer TWAP, given the time-weighted average price lags spot by about the same amount of time as the averaging period.
 
 ### Bid-Ask Spread
 
-pbnj
+The trader gets the worst price possible between the two TWAPs. A further static spread is applied to the worse of these two prices to protect against the time lag between the `microWindow` and the "true" spot price.
+
+Bid and ask prices received by traders are
+
+```
+bid = min(macroPrice, microPrice) * e**(-pbnj)
+ask = max(macroPrice, microPrice) * e**(pbnj)
+```
+
+where `pbnj` is the static spread calibrated to cover a majority of likely jumps to occur within the `microWindow`.
+
+Longs get the ask on entry and the bid on exit. Shorts get the bid on entry and the ask on exit.
 
 ### Market Impact
 
