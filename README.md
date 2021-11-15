@@ -13,7 +13,7 @@ This repo will be made public before the start of the contest. (C4 delete this l
 
 # Contest Scope
 
-This contest is open for two weeks to give wardens time to understand the protocol properly. Submissions can only be made in the second week of the contest. Representatives from Overlay will be available in the Code Arena Discord to answer any questions during the contest period. The focus for the contest is to try and find any logic errors or ways to drain funds from the protocol in a way that is advantageous for an attacker at the expense of users with funds invested in the protocol. Wardens should assume that governance variables are set sensibly (unless they can find a way to change the value of a governance variable, and not counting social engineering approaches for this).
+Representatives from Overlay will be available in the Code Arena Discord to answer any questions during the contest period. The focus for the contest is to try and find any logic errors or ways to drain funds from the protocol in a way that is advantageous for an attacker at the expense of users with funds invested in the protocol. Wardens should assume that governance variables are set sensibly (unless they can find a way to change the value of a governance variable, and not counting social engineering approaches for this).
 
 
 # Protocol Overview
@@ -46,7 +46,7 @@ To deter front-running the oracle, the protocol adds:
 
 - Market impact fee charged on the size of the position entered into
 
-Initial data streams to be offered as markets on Overlay will be Uniswap V3 price feeds and Balancer V2 price feeds (TWAPs).
+Initial data streams to be offered as markets on Overlay will be Uniswap V3 price feeds (TWAPs).
 
 
 # Contracts
