@@ -7,10 +7,6 @@
 - Starts November 16, 2021 00:00 UTC
 - Ends November 22, 2021 23:59 UTC
 
-This repo will be made public before the start of the contest. (C4 delete this line when made public)
-
-[ ⭐️ SPONSORS ADD INFO HERE ]
-
 # Contest Scope
 
 Representatives from Overlay will be available in the Code Arena Discord to answer any questions during the contest period. The focus for the contest is to try and find any logic errors or ways to drain funds from the protocol in a way that is advantageous for an attacker at the expense of users with funds invested in the protocol. Wardens should assume that governance variables are set sensibly (unless they can find a way to change the value of a governance variable, and not counting social engineering approaches for this).
